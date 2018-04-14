@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.cuzer.spring5recipeapp.domains.Recipe;
 
-public interface RecipeRepository extends CrudRepository<Recipe, Long>{
+public interface RecipeRepository extends CrudRepository<Recipe, Long> {
 
 }
