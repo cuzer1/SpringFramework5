@@ -1,12 +1,14 @@
 package com.cuzer.spring5recipeapp.services;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
 import com.cuzer.spring5recipeapp.domains.Recipe;
 import com.cuzer.spring5recipeapp.repositories.RecipeRepository;
+
 
 @Service
 public class RecipeServiceImpl implements RecipeService {
@@ -25,5 +27,18 @@ public class RecipeServiceImpl implements RecipeService {
 
 		return recipeSet;
 	}
+	
+	
+	
+    @Override
+    public Recipe findById(Long l) {
 
+        Optional<Recipe> recipeOptional = recipeRepository.findById(l);
+
+        if (!recipeOptional.isPresent()) {
+            throw new RuntimeException("Recipe Not Found!");
+        }
+
+        return recipeOptional.get();
+    }
 }

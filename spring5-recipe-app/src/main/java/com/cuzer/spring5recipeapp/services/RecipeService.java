@@ -7,5 +7,7 @@ import com.cuzer.spring5recipeapp.domains.Recipe;
 public interface RecipeService {
 
 	Set<Recipe> getRecipes();
+	
+	Recipe findById(Long l);
 
 }
