@@ -30,7 +30,9 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: mvn dependency:go-offline
+      #Comment out the code below
+      #- run: mvn dependency:go-offline
+      - run: mvn -U dependency:go-offline compile
 
       - save_cache:
           paths:
