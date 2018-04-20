@@ -12,6 +12,7 @@ import com.cuzer.spring5recipeapp.commands.RecipeCommand;
 import com.cuzer.spring5recipeapp.converters.RecipeCommandToRecipe;
 import com.cuzer.spring5recipeapp.converters.RecipeToRecipeCommand;
 import com.cuzer.spring5recipeapp.domains.Recipe;
+import com.cuzer.spring5recipeapp.exceptions.NotFoundException;
 import com.cuzer.spring5recipeapp.repositories.RecipeRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -46,7 +47,7 @@ public class RecipeServiceImpl implements RecipeService {
 		Optional<Recipe> recipeOptional = recipeRepository.findById(l);
 
 		if (!recipeOptional.isPresent()) {
-			throw new RuntimeException("Recipe Not Found!");
+			throw new NotFoundException("Recipe Not Found. For ID value: " + l.toString());
 		}
 
 		return recipeOptional.get();

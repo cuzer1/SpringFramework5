@@ -11,6 +11,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -42,11 +43,12 @@ public class ImageControllerTest {
 		MockitoAnnotations.initMocks(this);
 
 		controller = new ImageController(imageService, recipeService);
-		mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+		mockMvc = MockMvcBuilders.standaloneSetup(controller).setControllerAdvice(new ExceptionHandlerController())
+				.build();
 	}
 
 	@Test
-	public void getImageFormTest() throws Exception {
+	public void getImageForm() throws Exception {
 		// given
 		RecipeCommand command = new RecipeCommand();
 		command.setId(1L);
@@ -61,7 +63,7 @@ public class ImageControllerTest {
 	}
 
 	@Test
-	public void handleImagePostTest() throws Exception {
+	public void handleImagePost() throws Exception {
 		MockMultipartFile multipartFile = new MockMultipartFile("imagefile", "testing.txt", "text/plain",
 				"Spring Framework Guru".getBytes());
 
@@ -72,7 +74,7 @@ public class ImageControllerTest {
 	}
 
 	@Test
-	public void renderImageFromDBTest() throws Exception {
+	public void renderImageFromDB() throws Exception {
 
 		// given
 		RecipeCommand command = new RecipeCommand();
@@ -98,5 +100,12 @@ public class ImageControllerTest {
 		byte[] reponseBytes = response.getContentAsByteArray();
 
 		assertEquals(s.getBytes().length, reponseBytes.length);
+	}
+
+	@Test
+	public void testGetImageNumberFormatException() throws Exception {
+
+		mockMvc.perform(get("/recipe/asdf/recipeimage")).andExpect(status().isBadRequest())
+				.andExpect(view().name("400error"));
 	}
 }
